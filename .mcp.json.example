@@ -1,0 +1,27 @@
+{
+  "$comment": [
+    "Example MCP configuration for the agentic-setup @designer agent.",
+    "",
+    "The @designer agent REQUIRES the Stitch MCP server to be available — it",
+    "generates images via Stitch and refuses to run without it. Copy this file",
+    "to .mcp.json in your project root and replace the placeholder below with",
+    "the command / args / env published by the Stitch team.",
+    "",
+    "The agent looks for tools in the mcp__stitch__* namespace. If you rename",
+    "the server key from 'stitch' to something else, the agent will not find",
+    "the tools.",
+    "",
+    "Do NOT commit .mcp.json if it contains API keys or secrets — add it to",
+    ".gitignore in that case and document required env vars in your project",
+    "README instead."
+  ],
+  "mcpServers": {
+    "stitch": {
+      "command": "REPLACE_ME_WITH_STITCH_MCP_COMMAND",
+      "args": ["REPLACE_ME_WITH_STITCH_MCP_ARGS"],
+      "env": {
+        "STITCH_API_KEY": "REPLACE_ME_WITH_YOUR_STITCH_API_KEY"
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Agent Memory
 
-Project-scoped, append-only, role-specific memory for the three sub-agents in
+Project-scoped, append-only, role-specific memory for the four sub-agents in
 [../agents/](../agents/). Each file accumulates durable knowledge across
 sessions so agents don't start cold on every task.
 
@@ -9,6 +9,7 @@ sessions so agents don't start cold on every task.
 | File | Owner | Purpose |
 |------|-------|---------|
 | [project-manager.memory.md](project-manager.memory.md) | `@project-manager` | Client functional requirements: branding, color schemes, theming, UX / a11y constraints, NFRs. |
+| [designer.memory.md](designer.memory.md) | `@designer` | Durable design-system decisions: palette tokens, type scale, spacing rhythm, motion principles, named component patterns, iconography direction. |
 | [tech-lead.memory.md](tech-lead.memory.md) | `@tech-lead` | Tech stack and architectural decisions / pivots with rationale and trade-offs. |
 | [fullstack-dev.memory.md](fullstack-dev.memory.md) | `@fullstack-dev` | Debugging postmortems — only for genuinely hard problems the agent got stuck on. |
 
@@ -63,6 +64,18 @@ sessions so agents don't start cold on every task.
 - **Notes**: scope, known exceptions
 ```
 
+### `designer.memory.md`
+```markdown
+## YYYY-MM-DD — <decision headline>
+- **Decision**: chosen approach (e.g., "8pt spacing rhythm with 4pt half-step")
+- **Old approach**: previous (or "N/A — new")
+- **New approach**: replacement
+- **Rationale**: why
+- **Trade-offs**: what we accept in return
+- **Affected areas**: which kinds of screens / components
+- **Tags**: #palette #typography #spacing #motion #a11y #components
+```
+
 ## When to Write
 
 - **fullstack-dev**: only after ~3 genuinely distinct failed attempts on a
@@ -73,6 +86,11 @@ sessions so agents don't start cold on every task.
 - **project-manager**: only for durable client preferences that span multiple
   features (branding, palette, theming, a11y bar, UX principles). Skip
   one-off acceptance criteria.
+- **designer**: only for durable design-system decisions that span multiple
+  features (palette tokens, type scale, spacing rhythm, motion principles,
+  named component patterns, iconography direction). Skip per-feature layout
+  decisions and one-off copy choices. Brand requirements sourced from the
+  client belong in the PM's memory, not here.
 - **All agents**: de-duplicate first. If a matching entry exists, update or
   reference it instead of adding a new one.
 
