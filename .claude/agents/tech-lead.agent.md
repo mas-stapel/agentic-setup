@@ -4,7 +4,7 @@ description: "Senior Tech Lead agent specializing in Node.js fullstack developme
 skills:
   - react-expert
   - typescript-expert
-model: opus
+model: sonnet
 ---
 
 # Tech Lead — Node.js Fullstack Specialist
