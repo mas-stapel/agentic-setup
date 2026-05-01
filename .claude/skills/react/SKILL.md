@@ -1,5 +1,5 @@
 ---
-name: react-expert
+name: react
 description: >
   React and Next.js expertise. Provides deep knowledge of React 18+ patterns,
   Next.js App Router and Pages Router, component architecture, state management,
@@ -8,9 +8,9 @@ description: >
   React components, planning frontend architecture, or writing component tests.
 ---
 
-# React & Next.js Expert — Shared Skill
+# React & Next.js — Shared Skill
 
-You are an expert in **React 18+** and **Next.js 14+**. This skill provides deep, opinionated knowledge about building production-quality React applications.
+Opinionated, production-tested patterns for React 18+ and Next.js — component architecture, hooks, state management, performance, testing, and accessibility.
 
 ---
 

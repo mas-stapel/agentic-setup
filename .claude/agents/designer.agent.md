@@ -8,7 +8,7 @@ description: >
   at .claude/design/<feature-slug>.design.md for the @fullstack-dev to implement
   against. Never prescribes technical direction (libraries, file paths, APIs).
 skills:
-  - react-expert
+  - react
 tools:
   - Read
   - list_directory

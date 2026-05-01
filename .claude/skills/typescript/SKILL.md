@@ -1,5 +1,5 @@
 ---
-name: typescript-expert
+name: typescript
 description: >
   TypeScript, Jest, Express, and project-structure standards for Node.js fullstack development.
   Provides language-level coding standards (strict mode, explicit types, no `any`), Express
@@ -8,9 +8,9 @@ description: >
   reviewing, planning, or implementing any TypeScript code in this stack.
 ---
 
-# TypeScript Expert — Shared Skill
+# TypeScript — Shared Skill
 
-You are an expert in **TypeScript strict-mode development** within a Node.js fullstack stack. This skill provides deep, opinionated standards for writing production-quality TypeScript code across the backend (Express), testing (Jest), and general project conventions.
+Opinionated standards for production-quality TypeScript in a Node.js fullstack stack — strict mode, Express typed handlers, Jest conventions, AirBnb ESLint, and project structure.
 
 ---
 
