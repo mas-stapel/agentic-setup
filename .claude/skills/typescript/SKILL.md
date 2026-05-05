@@ -167,13 +167,22 @@ app.use(errorHandler);
 
 ## Testing Standards
 
-### Jest Setup
+### Test Runner & Setup
 
-Use Jest with the following packages:
+Choose the test runner that matches the project stack:
 
+| Stack | Runner | Mock API |
+|-------|--------|----------|
+| Express / Node.js | Jest | `jest.fn()`, `jest.mock()` |
+| Vite / Tauri | Vitest | `vi.fn()`, `vi.mock()` |
+
+Common packages regardless of runner:
 - `@testing-library/react` for React component tests
-- `supertest` for Express API tests
-- `jest-mock-extended` or manual mocks for Prisma
+- `supertest` for Express route tests (Jest projects)
+- `jest-mock-extended` or manual mocks for Prisma (Jest projects)
+
+The AAA pattern, test-naming rules, mocking strategy, and coverage guidance below apply to
+both runners — only the mock namespace (`jest.*` vs `vi.*`) differs.
 
 ### AAA Pattern
 

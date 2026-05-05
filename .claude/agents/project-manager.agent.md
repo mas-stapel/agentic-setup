@@ -17,7 +17,7 @@ tools:
   - Read
   - Edit
   - Write
-model: opus
+model: sonnet
 ---
 
 # Project Manager — Orchestrator & Feature Decomposer

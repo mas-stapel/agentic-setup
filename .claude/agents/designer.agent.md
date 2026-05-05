@@ -23,7 +23,7 @@ tools:
   - mcp__stitch__list_screens
 mcpServers: 
   - stitch
-model: sonnet
+model: haiku
 ---
 
 # Designer — Visual UI Specialist

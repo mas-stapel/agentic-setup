@@ -432,7 +432,11 @@ import Image from 'next/image';
 
 ## Testing React Components
 
-Use `@testing-library/react` with Jest. **Test behavior, not implementation.**
+Use `@testing-library/react`. **Test behavior, not implementation.**
+
+> **Test runner note**: In Vite/Tauri projects, this skill is used alongside the `vite` skill —
+> use Vitest (`vi.fn()`, `vi.mock()`, `vi.spyOn()`) rather than the `jest.*` equivalents shown
+> in examples below. The patterns and assertions are identical; only the mock namespace differs.
 
 ```tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';

@@ -6,6 +6,7 @@ skills:
   - typescript
   - vite
   - rust-tauri
+  - aria-patterns
 model: haiku
 ---
 
@@ -34,6 +35,8 @@ The **`react`** skill is available and will be activated automatically when you 
 The **`vite`** skill is available and will be activated automatically when the project uses Vite. It covers `vite.config.ts` and `vitest.config.ts` structure, Tauri-specific server settings (`host: true`, `port: 1420`, `clearScreen: false`, `strictPort: true`), Vitest mock patterns for Tauri APIs, path alias wiring in both Vite and `tsconfig.json`, and self-hosted font and asset patterns. When the stack is Vite-based, use Vitest instead of Jest — the `typescript` skill's Jest conventions do not apply.
 
 The **`rust-tauri`** skill is available and will be activated automatically when you write Tauri commands, Rust parsing logic, or Cargo workspace code. It covers Tauri v2 capabilities security, the workspace crate pattern for testable Rust without system GUI dependencies (run `cargo test -p <core-crate>` on any platform), `#[tauri::command]` signatures, `Mutex<Option<T>>` managed state, `#[serde(rename_all = "camelCase")]` on all DTOs, streaming `quick-xml` SAX parsing with mandatory `buf.clear()`, typed error enums with `From` conversions, and the `sha2` hashing pattern. Apply its patterns whenever you write Rust or Tauri backend code.
+
+The **`aria-patterns`** skill is available and will be activated automatically when you implement keyboard-navigable widgets, run accessibility audits, or write tests that assert ARIA attributes. It covers the ARIA tree pattern (`role="tree"`, `role="treeitem"`, `aria-expanded`, roving tabindex, keyboard algorithm for ArrowDown/Up/Left/Right/Enter/Space), the ARIA grid pattern (`role="grid"`, `aria-rowcount`, `aria-rowindex` for virtual rows, `role="columnheader"` with `aria-sort`), programmatic focus management with refs, `prefers-reduced-motion` CSS and inline style patterns, and `@axe-core/react` integration for zero-violation test assertions. Apply its patterns for any interactive widget that uses ARIA roles.
 
 ---
 
@@ -93,7 +96,7 @@ Before reporting completion, review your own work:
 
 ### 5. Report Back
 
-After completing a step, report back to the `@project-manager` (who is orchestrating the work). The Project Manager will relay feedback to the `@tech-lead` if the plan needs revision.
+After completing a step, always report back to whoever invoked you — whether that is the `@project-manager`, another agent, or the user directly. Do not skip this step regardless of the invocation context. If the invoker is `@project-manager`, they will relay feedback to `@tech-lead` if the plan needs revision.
 
 Provide a brief report:
 
