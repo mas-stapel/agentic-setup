@@ -6,6 +6,7 @@ skills:
   - typescript
   - vite
   - rust-tauri
+  - aria-patterns
 model: sonnet
 ---
 

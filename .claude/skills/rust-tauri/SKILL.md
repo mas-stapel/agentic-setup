@@ -467,6 +467,35 @@ pub fn import_collection(path: String, state: State<'_, AppState>) -> Result<Col
 
 ---
 
+## GUI-Dependent Acceptance Criteria
+
+Some acceptance criteria for Tauri apps cannot be verified headlessly (CI without a display server). Do **not** fabricate results for these.
+
+### What cannot be automated
+
+| Criterion | Why |
+|-----------|-----|
+| Scroll frame rate (fps) | Requires GPU compositing + profiler attached to WebView |
+| Drag-and-drop file interaction | Requires OS drag subsystem + visible window |
+| Screenshot / visual parity | Requires framebuffer rendering — Tauri v2 has no headless mode |
+| DevTools Performance recordings | Requires opening DevTools inside the WebView |
+| App launch smoke test | Requires a display server |
+
+### What CAN be automated headlessly
+
+| Criterion | How |
+|-----------|-----|
+| Parse time for N items | Integration test in the core library crate using `std::time::Instant` — no GUI dep |
+| Sort/transform time | Unit test with `performance.now()` (JS) or `std::time::Instant` (Rust) on the function directly |
+| Test suite pass/fail | Core library tests and frontend unit tests both run in headless environments |
+| Static analysis | Type checker and linter both run headlessly |
+
+### When a step mixes automated and GUI-dependent criteria
+
+Run and paste stdout for automated criteria. Report GUI-dependent criteria as "requires manual verification" with a specific reason each. Use the `⚠️ Partial: GUI verification required` status template in the `fullstack-dev` agent.
+
+---
+
 ## Common Pitfalls
 
 **`tauri.conf.json` `allowlist` key has no effect in Tauri v2**

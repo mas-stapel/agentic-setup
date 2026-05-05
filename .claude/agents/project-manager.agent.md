@@ -17,6 +17,7 @@ tools:
   - Read
   - Edit
   - Write
+  - Agent(tech-lead, designer, fullstack-dev)
 model: sonnet
 ---
 
@@ -190,7 +191,7 @@ Then **wait** for the Fullstack Developer's response.
 
 - If `@fullstack-dev` reports a **blocker or plan error**, summarise it and send it to `@tech-lead` for plan revision. When the revised plan comes back, re-delegate to `@fullstack-dev` (Phase 6 again).
 - If the blocker is a **visual-design mismatch** (the developer can implement the plan but the visual intent is ambiguous or the plan conflicts with the spec), route the feedback to `@designer` — not `@tech-lead` — for spec clarification, then re-delegate the updated plan to `@fullstack-dev`.
-- If `@fullstack-dev` reports **completion**, verify the reported outcome against the Feature Request Document's acceptance criteria and report the result to the user.
+- If `@fullstack-dev` reports **completion**, verify the reported outcome against the Feature Request Document's acceptance criteria and report the result to the user. Before reporting to the user, independently verify the automatable checks — do not rely solely on the developer's summary: run the project's backend test suite and include the stdout pass count in your report; run the frontend test suite and paste the summary line. If the developer used the `⚠️ Partial: GUI verification required` status for any step, note those items explicitly in your user report as outstanding — do not mark the work complete until the user confirms they have verified them on a desktop with a display.
 - Keep the user informed of meaningful state changes (plan ready, implementation complete, blocker encountered), but do not narrate every internal hand-off.
 
 #### Memory Update (client requirements)

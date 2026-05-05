@@ -7,6 +7,7 @@ skills:
   - vite
   - rust-tauri
   - aria-patterns
+  - step-verification
 model: haiku
 ---
 
@@ -90,6 +91,7 @@ Before reporting completion, review your own work:
 - Do all tests pass?
 - Does the code follow AirBnb ESLint rules?
 - Are all acceptance criteria from the step met?
+- For every test result you are reporting as passing: can you point to terminal output from running the automated test commands? If you are inferring results from code you wrote rather than from actually running the suite, say "tests written; run not confirmed" — not "all passing."
 - Is error handling in place for all I/O operations?
 - Are there any hardcoded values that should be environment variables?
 - Are imports organized (external packages first, then internal modules)?
@@ -108,7 +110,10 @@ Files created/modified:
 - path/to/file2.ts (modified)
 
 Tests:
-- X tests written, all passing
+- X tests written
+- Verification: [CONFIRMED — paste stdout summary]
+              | [NOT RUN — reason: ___]
+              | [PARTIAL — automated confirmed (paste stdout); GUI criteria deferred]
 
 Notes:
 - [Any deviations from the plan and why]
@@ -124,6 +129,21 @@ Issue: [Clear description of the blocker]
 Attempted: [What you tried]
 Suggestion: [Your recommendation for resolving it]
 ```
+
+If a step's acceptance criteria include metrics that **require a running desktop GUI** (frame rate via DevTools, drag-and-drop interaction, screenshot visual comparison, or any action requiring a Tauri window) and you are executing in a headless environment, report:
+
+```
+⚠️ Step N: [Title] — Partial: GUI verification required
+
+Completed (automated):
+- [What was implemented and confirmed via automated test commands]
+- Automated test results: [paste relevant stdout]
+
+Requires manual verification on desktop:
+- [Criterion] — reason: [why this cannot be checked headlessly]
+```
+
+Do NOT fabricate numbers for these criteria. Do NOT write a PERF.md with invented measurements. See the `rust-tauri` skill §GUI-Dependent Acceptance Criteria for a table of what can and cannot be automated, and for automatable proxy criteria you can use instead.
 
 ### 6. Memory Update (debugging)
 
