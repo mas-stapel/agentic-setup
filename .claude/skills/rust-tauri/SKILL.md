@@ -4,9 +4,11 @@ description: >
   Rust idioms and Tauri v2 patterns for desktop application development. Provides
   expertise in Tauri's command system, capabilities-based security, managed state,
   IPC bridge design, Cargo workspace structuring for testability, streaming XML
-  parsing with quick-xml, and typed error handling. Activate this skill when
+  parsing with quick-xml, and typed error handling. Also enforces crate-dependency
+  research discipline: read Cargo.toml before prescribing versions, verify API
+  surfaces against docs.rs, and check feature gates. Activate this skill when
   designing or implementing Tauri commands, Rust backend logic, IPC data models,
-  or Cargo workspace structure.
+  Cargo workspace structure, or any plan that introduces a new Rust crate dependency.
 ---
 
 # Rust + Tauri v2 — Desktop Backend
@@ -496,6 +498,75 @@ Run and paste stdout for automated criteria. Report GUI-dependent criteria as "r
 
 ---
 
+## Crate Dependencies — Research Before Prescribing
+
+Training-data knowledge of crates is stale. Follow these rules any time a plan introduces or modifies a Rust dependency.
+
+**Rule 1: Read `Cargo.toml` before adding any dependency**
+
+Before writing any `Cargo.toml` change into a plan, read:
+
+- `src-tauri/Cargo.toml` (workspace root — check `[workspace.dependencies]`)
+- `src-tauri/crates/sonic-ledger-core/Cargo.toml` (library crate)
+
+Confirm: is the crate already present? At what version? With which features enabled? Do not prescribe an add if it already exists. Do not prescribe a version without first checking the current one in the file.
+
+**Rule 2: Never write a crate version from training data**
+
+For every new crate dependency, use `web_search` to find the current stable release at `crates.io/crates/<name>` before writing the version into the plan. Write the verified version and mark it as verified.
+
+```toml
+# Wrong — version is a training-data guess:
+lofty = "0.22"
+
+# Correct — version confirmed via web_search on crates.io/crates/lofty:
+lofty = { version = "0.X", features = [...] }  # verified <date>
+```
+
+**Rule 3: Flag external API references — never assert them**
+
+When a plan names a specific function, type, method, or enum variant from an external crate (anything outside `std` or the project's own code), mark it as "verify against docs.rs before coding" rather than stating it as ground truth. Do not write it as if it is definitely correct.
+
+Hallucination-prone surfaces:
+
+- Named enum variants (e.g. `ItemKey::Bpm`, `ItemKey::InitialKey` — names are version-sensitive and change between minor releases)
+- Trait method names (e.g. `AudioFile::properties()` — may be named differently or gated behind a feature)
+- Any type or method that only exists when a specific Cargo feature is enabled
+
+Plan annotation format:
+
+```rust
+// lofty::read_from_path — verify method name against docs.rs for the version pinned in Cargo.toml
+// ItemKey::Bpm — verify variant name against docs.rs/lofty/<version>/lofty/enum.ItemKey.html
+```
+
+**Rule 4: Check feature gates for every new crate**
+
+Many crates (audio, image, codec) gate individual format support behind Cargo features. The default feature set is often minimal. Before assuming defaults cover all required inputs, check the crate's `[features]` table in docs.rs.
+
+Example pattern — `lofty` requires per-format feature flags (exact names must be verified on docs.rs):
+
+```toml
+# Likely wrong — default features may omit required formats:
+lofty = "0.X"
+
+# Correct — explicitly enable required formats after checking docs.rs:
+lofty = { version = "0.X", features = ["format_mp3", "format_flac", "format_wav", "format_aiff", "format_mp4"] }
+```
+
+**Rule 5: Tauri plugins — verify both the Rust crate and the npm package**
+
+Tauri plugins ship two halves versioned independently:
+
+- Rust: `tauri-plugin-<name>` on crates.io
+- JavaScript: `@tauri-apps/plugin-<name>` on npm
+
+Use `web_search` to confirm the version matrix (typically in the plugin's GitHub README). Do not assume major-version parity alone guarantees compatibility — minor versions can diverge.
+
+Also verify capability permission strings from the plugin's own source (`permissions/` directory or README), not from memory. Strings like `"shell:allow-open"` may be correct but must be confirmed before writing them into `capabilities/default.json`.
+
+---
+
 ## Common Pitfalls
 
 **`tauri.conf.json` `allowlist` key has no effect in Tauri v2**
@@ -515,3 +586,22 @@ The top-level Tauri crate requires system GUI libraries not present in WSL2. Run
 
 **`File::open` keeps the file handle open across async boundaries**
 `quick-xml`'s `Reader` holds a reference to the reader. In synchronous Tauri commands, this is fine — the file handle is closed when the `Reader` drops at the end of the function. Never `.await` while holding the file handle open.
+
+**`tauri://drag-drop` is a Tauri v1 pattern — does not work in v2**
+In Tauri v2, file drag-drop uses the typed webview event API, not a string event listener:
+
+```typescript
+// Wrong — Tauri v1 pattern, silently does nothing in v2:
+import { listen } from '@tauri-apps/api/event';
+await listen('tauri://drag-drop', (event) => { ... });
+
+// Correct — Tauri v2 typed API:
+import { getCurrentWebview } from '@tauri-apps/api/webview';
+const unlisten = await getCurrentWebview().onDragDropEvent((event) => {
+  if (event.payload.type === 'drop') {
+    const paths = event.payload.paths; // string[]
+  }
+});
+```
+
+Verify `getCurrentWebview` and `onDragDropEvent` against the installed `@tauri-apps/api` v2 docs before coding — the webview API surface is still evolving across minor versions.

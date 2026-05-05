@@ -16,6 +16,8 @@ tools:
   - web_search
   - Edit
   - Write
+  - EnterPlanMode
+  - ExitPlanMode
   - AskUserQuestion
   - mcp__stitch__create_design_system
   - mcp__stitch__update_design_system
