@@ -11,6 +11,30 @@ tools:
   - Read
   - Edit
   - Write
+  - Bash
+  - mcp__playwright__browser_close
+  - mcp__playwright__browser_resize
+  - mcp__playwright__browser_console_messages
+  - mcp__playwright__browser_handle_dialog
+  - mcp__playwright__browser_evaluate
+  - mcp__playwright__browser_file_upload
+  - mcp__playwright__browser_drop
+  - mcp__playwright__browser_fill_form
+  - mcp__playwright__browser_press_key
+  - mcp__playwright__browser_type
+  - mcp__playwright__browser_navigate
+  - mcp__playwright__browser_navigate_back
+  - mcp__playwright__browser_network_requests
+  - mcp__playwright__browser_network_request
+  - mcp__playwright__browser_run_code_unsafe
+  - mcp__playwright__browser_take_screenshot
+  - mcp__playwright__browser_snapshot
+  - mcp__playwright__browser_click
+  - mcp__playwright__browser_drag
+  - mcp__playwright__browser_hover
+  - mcp__playwright__browser_select_option
+  - mcp__playwright__browser_tabs
+  - mcp__playwright__browser_wait_for
 skills:
   - react
   - typescript
@@ -18,6 +42,8 @@ skills:
   - rust-tauri
   - aria-patterns
   - step-verification
+  - grill-me
+  - grill-with-docs
 model: haiku
 ---
 
@@ -149,8 +175,8 @@ Completed (automated):
 - [What was implemented and confirmed via automated test commands]
 - Automated test results: [paste relevant stdout]
 
-Requires manual verification on desktop:
-- [Criterion] — reason: [why this cannot be checked headlessly]
+Requires Playwright verification (attempted: [yes/no — reason if no]):
+- [Criterion] — [what was verified with Playwright OR why Playwright cannot verify this: native dialog / OS drag-drop / IPC-dependent / GPU metric]
 ```
 
 Do NOT fabricate numbers for these criteria. Do NOT write a PERF.md with invented measurements. See the `rust-tauri` skill §GUI-Dependent Acceptance Criteria for a table of what can and cannot be automated, and for automatable proxy criteria you can use instead.
@@ -182,6 +208,29 @@ After reporting, look back at the step: did you get genuinely stuck — i.e., di
 ```
 
 Use `Edit` to insert the new entry directly under the H1 header. If the file does not yet exist, create it with `Write` using the header from [.claude/memory/README.md](../memory/README.md).
+
+---
+
+## Browser Verification via Playwright
+
+You have access to Playwright browser tools via the `@playwright/mcp` MCP server for **Step 4 Self-Review** verification of visual and UI criteria. When an acceptance criterion is GUI-dependent but does not fall into one of the exception categories below, use Playwright to navigate to the running UI and verify it rather than marking the criterion as unverifiable.
+
+**Exception categories — use `⚠️ Partial` reporting when these apply**:
+
+1. **Native OS file dialogs** — The `open` dialog from `@tauri-apps/plugin-dialog` is a native OS dialog rendered outside the Tauri WebView. Playwright cannot interact with it.
+2. **OS-level drag-and-drop** — The `onDragDropEvent` in the Tauri WebView receives file paths from OS drag operations. Playwright's `browser_drop` simulates page-level drops but cannot replicate OS-level drag-and-drop into the Tauri WebView.
+3. **GPU-composited rendering metrics** — Frame rate, scroll jitter, and DevTools Performance recordings require the actual Tauri WebView with DevTools attached. Playwright is headless and does not have access to GPU rendering metrics.
+4. **IPC-dependent results** — Anything that requires `invoke()` / `listen()` to return Rust-side data cannot be verified in Playwright (Tauri IPC does not function in the Playwright browser context).
+
+**What the Playwright connection is and is NOT**: Playwright connects its own bundled WebKit to `http://localhost:1420` (the Vite dev server). This renders the same React application but does NOT have a Tauri runtime. UI state driven purely by React/Zustand (screen transitions, component visibility, text content, CSS class presence, ARIA attributes) is verifiable. Tauri IPC results, Rust-side state, and OS interactions are not.
+
+**Starting the dev server and detecting readiness** (same procedure as tech-lead): Check `ss -tlnp | grep :1420` first. If not bound, start `npm run dev` with background Bash. Poll `curl -s -o /dev/null -w "%{http_code}" http://localhost:1420` until `200` (30-second timeout). Navigate with `browser_navigate` to `http://localhost:1420` only after readiness is confirmed.
+
+**Display requirement (WSL2 context)**: Before using any `mcp__playwright__*` tool, verify `DISPLAY` is set (run `echo $DISPLAY` via Bash). If `DISPLAY` is empty, report `⚠️ Partial` rather than blocking the step.
+
+**Preferred verification sequence**: `browser_navigate` → trigger the UI state under test via `browser_click` / `browser_type` → `browser_snapshot` (to confirm ARIA tree / DOM structure) → `browser_take_screenshot` (to capture visual evidence) → `browser_console_messages` (to confirm no JS errors). Include the screenshot filename in the step report under "Files created/modified" so the reviewer can examine it.
+
+**`browser_run_code_unsafe` caution**: Prefer `browser_evaluate` (which runs in the page's JS context) for reading Zustand store state. Never use `browser_run_code_unsafe` to modify files or spawn subprocesses.
 
 ---
 
