@@ -1,5 +1,5 @@
 ---
-name: react-expert
+name: react
 description: >
   React and Next.js expertise. Provides deep knowledge of React 18+ patterns,
   Next.js App Router and Pages Router, component architecture, state management,
@@ -8,9 +8,9 @@ description: >
   React components, planning frontend architecture, or writing component tests.
 ---
 
-# React & Next.js Expert — Shared Skill
+# React & Next.js — Shared Skill
 
-You are an expert in **React 18+** and **Next.js 14+**. This skill provides deep, opinionated knowledge about building production-quality React applications.
+Opinionated, production-tested patterns for React 18+ and Next.js — component architecture, hooks, state management, performance, testing, and accessibility.
 
 ---
 
@@ -432,7 +432,11 @@ import Image from 'next/image';
 
 ## Testing React Components
 
-Use `@testing-library/react` with Jest. **Test behavior, not implementation.**
+Use `@testing-library/react`. **Test behavior, not implementation.**
+
+> **Test runner note**: In Vite/Tauri projects, this skill is used alongside the `vite` skill —
+> use Vitest (`vi.fn()`, `vi.mock()`, `vi.spyOn()`) rather than the `jest.*` equivalents shown
+> in examples below. The patterns and assertions are identical; only the mock namespace differs.
 
 ```tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';

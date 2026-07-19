@@ -13,8 +13,8 @@
 
 ### Skills (shared expertise loaded automatically by relevant agents)
 
-- `react-expert` — React 18+, Next.js App Router & Pages Router patterns, hooks, state management, testing, and accessibility.
-- `typescript-expert` — Strict TypeScript, Express typed handlers, Jest AAA testing, AirBnb ESLint, and project file conventions.
+- `react` — React 18+, Next.js App Router & Pages Router patterns, hooks, state management, testing, and accessibility.
+- `typescript` — Strict TypeScript, Express typed handlers, Jest AAA testing, AirBnb ESLint, and project file conventions.
 
 ### Memory system
 
@@ -64,8 +64,8 @@ ln -s ../.agentic-setup/.claude/skills .claude/skills
 > ln -s ../../.agentic-setup/.claude/agents/designer.agent.md .claude/agents/designer.agent.md
 > ln -s ../../.agentic-setup/.claude/agents/tech-lead.agent.md .claude/agents/tech-lead.agent.md
 > ln -s ../../.agentic-setup/.claude/agents/fullstack-dev.agent.md .claude/agents/fullstack-dev.agent.md
-> ln -s ../../.agentic-setup/.claude/skills/react-expert .claude/skills/react-expert
-> ln -s ../../.agentic-setup/.claude/skills/typescript-expert .claude/skills/typescript-expert
+> ln -s ../../.agentic-setup/.claude/skills/react .claude/skills/react
+> ln -s ../../.agentic-setup/.claude/skills/typescript .claude/skills/typescript
 > ```
 
 ### 2.5. Create the design artifacts directory

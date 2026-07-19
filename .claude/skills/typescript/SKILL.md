@@ -1,5 +1,5 @@
 ---
-name: typescript-expert
+name: typescript
 description: >
   TypeScript, Jest, Express, and project-structure standards for Node.js fullstack development.
   Provides language-level coding standards (strict mode, explicit types, no `any`), Express
@@ -8,9 +8,9 @@ description: >
   reviewing, planning, or implementing any TypeScript code in this stack.
 ---
 
-# TypeScript Expert — Shared Skill
+# TypeScript — Shared Skill
 
-You are an expert in **TypeScript strict-mode development** within a Node.js fullstack stack. This skill provides deep, opinionated standards for writing production-quality TypeScript code across the backend (Express), testing (Jest), and general project conventions.
+Opinionated standards for production-quality TypeScript in a Node.js fullstack stack — strict mode, Express typed handlers, Jest conventions, AirBnb ESLint, and project structure.
 
 ---
 
@@ -167,13 +167,22 @@ app.use(errorHandler);
 
 ## Testing Standards
 
-### Jest Setup
+### Test Runner & Setup
 
-Use Jest with the following packages:
+Choose the test runner that matches the project stack:
 
+| Stack | Runner | Mock API |
+|-------|--------|----------|
+| Express / Node.js | Jest | `jest.fn()`, `jest.mock()` |
+| Vite / Tauri | Vitest | `vi.fn()`, `vi.mock()` |
+
+Common packages regardless of runner:
 - `@testing-library/react` for React component tests
-- `supertest` for Express API tests
-- `jest-mock-extended` or manual mocks for Prisma
+- `supertest` for Express route tests (Jest projects)
+- `jest-mock-extended` or manual mocks for Prisma (Jest projects)
+
+The AAA pattern, test-naming rules, mocking strategy, and coverage guidance below apply to
+both runners — only the mock namespace (`jest.*` vs `vi.*`) differs.
 
 ### AAA Pattern
 
